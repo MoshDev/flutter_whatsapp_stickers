@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.github.vincekruger.whatsapp_stickers">
 
-    <application android:allowBackup="true">
+    <application>
 
         <provider
             android:name=".StickerContentProvider"
