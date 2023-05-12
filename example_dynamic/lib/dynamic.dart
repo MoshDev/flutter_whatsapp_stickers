@@ -1,14 +1,13 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:archive/archive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_whatsapp_stickers/flutter_whatsapp_stickers.dart';
 import 'utils.dart';
+import 'package:archive/archive_io.dart';
 
 int random() {
   var rng = new Random();
