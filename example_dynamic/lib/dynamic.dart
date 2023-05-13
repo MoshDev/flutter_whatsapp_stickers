@@ -46,10 +46,8 @@ class _DynamicContentState extends State<DynamicContent> {
 
   void prepareFolderStructure() async {
     _applicationDirectory = await getApplicationDocumentsDirectory();
-    _stickerPacksDirectory =
-        Directory("${_applicationDirectory?.path}/sticker_packs");
-    _stickerPacksConfigFile =
-        File("${_stickerPacksDirectory?.path}/sticker_packs.json");
+    _stickerPacksDirectory = Directory("${_applicationDirectory?.path}/sticker_packs");
+    _stickerPacksConfigFile = File("${_stickerPacksDirectory?.path}/sticker_packs.json");
 
     // Create the config file if it doesn't exist.
     if (!await _stickerPacksConfigFile!.exists()) {
@@ -64,16 +62,13 @@ class _DynamicContentState extends State<DynamicContent> {
     }
 
     // Load sticker pack config
-    _stickerPacksConfig =
-        jsonDecode((await _stickerPacksConfigFile!.readAsString()));
+    _stickerPacksConfig = jsonDecode((await _stickerPacksConfigFile!.readAsString()));
     _storedStickerPacks = _stickerPacksConfig!['sticker_packs'];
   }
 
   void checkInstallationStatuses() async {
-    bool installed1 =
-        await _waStickers.isStickerPackInstalled(_stickerPackIdentifier1);
-    bool installed2 =
-        await _waStickers.isStickerPackInstalled(_stickerPackIdentifier2);
+    bool installed1 = await _waStickers.isStickerPackInstalled(_stickerPackIdentifier1);
+    bool installed2 = await _waStickers.isStickerPackInstalled(_stickerPackIdentifier2);
 
     setState(() {
       _stickerPackInstalled1 = installed1;
@@ -84,9 +79,7 @@ class _DynamicContentState extends State<DynamicContent> {
   void unpackArchive(String identifier) async {
     ByteData fileData = await rootBundle.load("sticker_packs/$identifier.zip");
     final archive = ZipDecoder().decodeBytes(Uint8List.view(fileData.buffer));
-    Directory packageDirectory =
-        Directory("${_stickerPacksDirectory!.path}/$identifier")
-          ..create(recursive: true);
+    Directory packageDirectory = Directory("${_stickerPacksDirectory!.path}/$identifier")..create(recursive: true);
 
     for (final file in archive) {
       if (file.isFile) {
@@ -100,12 +93,10 @@ class _DynamicContentState extends State<DynamicContent> {
 
     /// Read Package Contents
     File packageContentsFile = File("${packageDirectory.path}/config.json");
-    Map<String, dynamic> packageContentsMap =
-        jsonDecode(await packageContentsFile.readAsString());
+    Map<String, dynamic> packageContentsMap = jsonDecode(await packageContentsFile.readAsString());
 
     /// Add to global config
-    _storedStickerPacks!.removeWhere(
-        (item) => item['identifier'] == packageContentsMap['identifier']);
+    _storedStickerPacks!.removeWhere((item) => item['identifier'] == packageContentsMap['identifier']);
     _storedStickerPacks!.add(packageContentsMap);
 
     /// Update config file
@@ -124,11 +115,9 @@ class _DynamicContentState extends State<DynamicContent> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 40),
       children: <Widget>[
-        stickerPack(
-            _stickerPackName1, _stickerPackIdentifier1, _stickerPackInstalled1),
+        stickerPack(_stickerPackName1, _stickerPackIdentifier1, _stickerPackInstalled1),
         Divider(height: 40),
-        stickerPack(
-            _stickerPackName2, _stickerPackIdentifier2, _stickerPackInstalled2),
+        stickerPack(_stickerPackName2, _stickerPackIdentifier2, _stickerPackInstalled2),
       ],
     );
   }
@@ -158,8 +147,7 @@ class _DynamicContentState extends State<DynamicContent> {
                   packageName: WhatsAppPackage.Consumer,
                   stickerPackIdentifier: identifier,
                   stickerPackName: name,
-                  listener: (action, result, {error = "Error"}) =>
-                      processResponse(
+                  listener: (action, result, {error = "Error"}) => processResponse(
                     action: action,
                     result: result,
                     error: error,
